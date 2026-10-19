@@ -62,7 +62,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
-  :where(.btn, .td-navbar .nav-link, .docs-sidebar-item > a, .praxis-footer__group a,
+  :where(.btn, .td-navbar .nav-link, .docs-sidebar-item > a, .praxis-footer__group a, .praxis-footer__slack-cta,
     .task-card, .docs-directory-card, .docs-need-product,
     .product-journey-group, .praxis-blog-card,
     .protocol-row) {
@@ -71,15 +71,18 @@
       color var(--motion-quick) ease;
   }
   .btn > span, .task-card__action > span,
-  .gateway-spotlight__link > span, .task-card__icon,
-  .navbar-brand__logo {
+  .gateway-spotlight__link > span, .task-card__icon {
     display: inline-block;
+    transition: transform 500ms var(--motion-ease);
+  }
+  .navbar-brand__logo {
     transition: transform 500ms var(--motion-ease);
   }
   .btn:hover { transform: translateY(-2px); }
   .btn:active { transform: translateY(0) scale(.98); }
   .btn:hover > span, .task-card__action:hover > span, .gateway-spotlight__link:hover > span { transform: translate(3px, -2px); }
-  .navbar-brand:hover .navbar-brand__logo { transform: rotate(-7deg) scale(1.08); }
+  .navbar-brand:hover .navbar-brand__logo--light,
+  [data-bs-theme='dark'] .navbar-brand:hover .navbar-brand__logo--dark { transform: rotate(-7deg) scale(1.08); }
   .td-navbar .nav-link:not(.dropdown-toggle) {
     background-image: linear-gradient(var(--praxis-accent), var(--praxis-accent));
     background-repeat: no-repeat;
