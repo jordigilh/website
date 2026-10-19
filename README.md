@@ -1,4 +1,6 @@
 # Praxis documentation site
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpraxis-proxy%2Fwebsite.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpraxis-proxy%2Fwebsite?ref=badge_shield)
+
 
 One Hugo site publishes shared ecosystem pages and versioned docs from the Praxis, Praxis AI, and Policy repositories. Product source repositories remain authoritative; prepared Markdown and assets live only in ignored `.cache/` output.
 
@@ -95,3 +97,7 @@ The first-proxy tutorial can be checked with an externally built v0.7.2 binary o
 python3 tools/check-onboarding.py --binary /path/to/praxis
 python3 tools/check-onboarding.py --image ghcr.io/praxis-proxy/praxis:0.7.2
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpraxis-proxy%2Fwebsite.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpraxis-proxy%2Fwebsite?ref=badge_large)
