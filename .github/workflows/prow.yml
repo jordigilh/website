@@ -1,0 +1,75 @@
+name: Prow
+
+# ------------------------------------------------------------------------------
+# Workflow Settings
+# ------------------------------------------------------------------------------
+#
+# Prow chat-ops from cncf/prow-github-actions: slash commands on issues and
+# pull requests, needs-* labels, one reviewer requested from the OWNERS file,
+# and automatic merging on /lgtm + /approve once checks pass. Label families
+# and the merge gate are configured in .github/prow.yaml; reviewers and
+# approvers are listed in the root OWNERS file.
+#
+# Runs with the default github.token. Restriction: a merge performed with
+# GITHUB_TOKEN fires no push events, so Publish Pages (pages.yml) does not run
+# when Prow merges. Deploy the site manually after a Prow merge (Actions ->
+# Publish Pages -> Run workflow). Follow-up: pass the praxis-bot app token as
+# the `token` secret so merges deploy the site again; that would also let the
+# weekly update-docs pull request trigger reviewer requests and let fork pull
+# requests that touch workflow files merge.
+#
+# After changing .github/prow.yaml, label-sync creates the new labels on the
+# push that lands the change; it can also be run manually (Actions -> Prow ->
+# Run workflow). Label commands only apply labels that exist.
+#
+# pull_request_target, not pull_request: fork pull requests get a write token,
+# so they can be labeled and merged too. This is safe because nothing here
+# checks out or runs pull request code; the reusable workflow only checks out
+# cncf/prow-github-actions itself.
+on:
+  issues:
+    types: [opened, reopened, labeled, unlabeled]
+  issue_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+  pull_request_review:
+    types: [submitted, dismissed]
+  check_suite:
+    types: [completed]
+  # backstop for merges missed by the events above
+  schedule:
+    - cron: '0 * * * *'
+  # label-sync: run once after installing, then whenever .github/prow.yaml changes
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/prow.yaml]
+
+# the reusable workflow can use at most what is granted here
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  statuses: write
+  actions: write
+
+# One run per comment (commands are never collapsed); per event+action for everything else,
+# so a pending `synchronize` run can only be superseded by a newer `synchronize` run.
+# Never cancel a run that may be merging.
+concurrency:
+  group: prow-${{ github.event_name }}-${{ github.event.action }}-${{ github.event.comment.id || github.event.pull_request.number || github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  prow:
+    if: github.event_name != 'workflow_dispatch' && github.event_name != 'push'
+    # v3.0.1
+    uses: cncf/prow-github-actions/.github/workflows/prow.yml@187c5e3cd95a329c43448e1bdb3b1f5249232e44
+
+  label-sync:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    # v3.0.1
+    uses: cncf/prow-github-actions/.github/workflows/prow.yml@187c5e3cd95a329c43448e1bdb3b1f5249232e44
+    with:
+      jobs: label-sync
