@@ -6,18 +6,30 @@ updates:
     schedule:
       interval: weekly
     labels: ["kind/dependencies"]
+    # supply-chain cooldown: skip releases newer than 7 days
+    cooldown:
+      default-days: 7
   - package-ecosystem: gomod
     directory: "/"
     schedule:
       interval: weekly
     labels: ["kind/dependencies"]
+    # supply-chain cooldown: skip releases newer than 7 days
+    cooldown:
+      default-days: 7
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: weekly
     labels: ["kind/dependencies"]
+    # supply-chain cooldown: skip releases newer than 7 days
+    cooldown:
+      default-days: 7
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
     labels: ["kind/dependencies"]
+    # supply-chain cooldown: skip releases newer than 7 days
+    cooldown:
+      default-days: 7

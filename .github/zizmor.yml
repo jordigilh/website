@@ -1,0 +1,19 @@
+rules:
+  # prow.yml triggers on issue_comment and pull_request_target because Prow
+  # commands and fork pull requests need the base repository's write token.
+  # This is the safe pattern: nothing checks out or runs pull request code —
+  # the reusable workflow only checks out cncf/prow-github-actions at its
+  # pinned commit, and commands are authorized against the OWNERS file
+  # before anything is applied.
+  dangerous-triggers:
+    ignore:
+      - prow.yml
+
+  # The write permissions are the ceiling granted to the
+  # cncf/prow-github-actions reusable workflow, per its documented install
+  # shape: labeling, commenting, merging, lgtm commit statuses, and re-running
+  # checks all happen inside the called workflow, so they cannot be scoped to
+  # narrower per-job permissions here.
+  excessive-permissions:
+    ignore:
+      - prow.yml
