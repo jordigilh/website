@@ -2,17 +2,12 @@ name: zizmor
 
 permissions: {}
 
+# no paths filter: the check must report on every pull request to be required
 on:
   push:
     branches: [main]
-    paths:
-      - ".github/workflows/**"
-      - ".github/dependabot.yml"
   pull_request:
     branches: [main]
-    paths:
-      - ".github/workflows/**"
-      - ".github/dependabot.yml"
 
 jobs:
   zizmor:
