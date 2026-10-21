@@ -99,12 +99,9 @@ jobs:
           jobs: lgtm
 
   # fork pull requests updated within sweep.lookback (default 1h), plus the
-  # lgtm backstop for events GitHub dropped.
-  # Do not apply the ok-to-test label to a pull request. The sweep approves
-  # held workflow runs for any labelled pull request without checking who
-  # applied the label, and this job lacks actions: write, so every run fails
-  # for about an hour after the label is applied. Remove the label to stop it.
-  # Maintainers with write access approve held runs in the Actions tab.
+  # lgtm backstop for events GitHub dropped. Approves held workflow runs for
+  # pull requests labelled ok-to-test; anyone with triage access can apply that
+  # label, and the approval does not check who applied it.
   sweep:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
@@ -117,6 +114,8 @@ jobs:
       pull-requests: write
       # binding lgtm to the reviewed commit (prow/lgtm commit status)
       statuses: write
+      # approving held workflow runs for ok-to-test pull requests
+      actions: write
     steps:
       - uses: cncf/prow-github-actions@187c5e3cd95a329c43448e1bdb3b1f5249232e44 # v3.0.1
         with:
