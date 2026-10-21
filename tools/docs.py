@@ -1150,10 +1150,14 @@ def demote_subsequent_h1s(markdown: str) -> str:
             elif token == fence and len(marker.group(1)) >= fence_length:
                 fence, fence_length = None, 0
             lines.append(line)
-        elif fence is None and re.match(r"^ {0,3}#\s+", line):
-            if seen_h1:
-                line = re.sub(r"^( {0,3})#", r"\1##", line, count=1)
-            seen_h1 = True
+        elif fence is None and (heading := re.match(r"^( {0,3})(#{1,6})(?=[ \t])", line)):
+            level = len(heading.group(2))
+            if level == 1 and not seen_h1:
+                seen_h1 = True
+            elif seen_h1 and level < 6:
+                # Shift later headings one level down so nested headings stay
+                # beneath the section they belong to.
+                line = heading.group(1) + "#" + line[len(heading.group(1)):]
             lines.append(line)
         else:
             lines.append(line)
@@ -1576,6 +1580,13 @@ def check_adapter() -> None:
     )
     assert grid_routing == (
         '<a id="routing-guide"></a>\n\n## First section\n\n~~~yaml\n# config\n~~~\n\n## Second section\n'
+    )
+    grid_nested = adapt_page_markdown(
+        "# Routing guide\n\n# First section\n\n## Nested detail\n\n### Deeper\n\n###### Deepest\n",
+        "Routing guide", product="grid", source_path="docs/routing.md",
+    )
+    assert grid_nested == (
+        '<a id="routing-guide"></a>\n\n## First section\n\n### Nested detail\n\n#### Deeper\n\n###### Deepest\n'
     )
     other_routing = adapt_page_markdown(
         "# Routing guide\n\n# First section\n", "Routing guide", product="ai", source_path="docs/routing.md",
