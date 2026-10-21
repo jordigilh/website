@@ -9,6 +9,8 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # starts the check workflow on the docs pull request branch (see below)
+  actions: write
 
 jobs:
   update:
@@ -37,6 +39,7 @@ jobs:
         run: make check
 
       - name: Open pull request
+        id: cpr
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           branch: automation/update-doc-versions
@@ -57,3 +60,14 @@ jobs:
 
             🤖 Generated with [Claude Code](https://claude.com/claude-code)
           delete-branch: true
+
+      # The pull request is opened with github.token, which fires no
+      # pull_request events, so start the check workflow on its branch. Its run
+      # checks the pull request's head commit, which is the required check for
+      # this pull request. workflow_dispatch is the event github.token can use.
+      - name: Run checks on the docs pull request
+        if: steps.cpr.outputs.pull-request-number != ''
+        run: gh workflow run check.yml --ref automation/update-doc-versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
