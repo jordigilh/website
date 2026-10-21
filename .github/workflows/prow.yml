@@ -34,7 +34,11 @@ name: Prow
 on:
   issues:
     types: [opened, reopened, labeled, unlabeled]
-  issue_comment:
+  # Chat-ops: Prow commands arrive as comments. Safe usage: no comment
+  # content is ever interpolated (only the numeric comment.id in the
+  # concurrency group below), and commands are authorized against the
+  # OWNERS file.
+  issue_comment: # zizmor: ignore[dangerous-triggers]
     types: [created]
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
