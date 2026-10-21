@@ -11,7 +11,7 @@ For documentation and website contributions, read [AGENTS.md](AGENTS.md) for sou
 - Docker Engine with Docker Compose v2
 - GNU Make
 
-The container uses the official Hugo Extended 0.167.0 image and supplies the remaining build tools. Dependabot checks Docker, Go modules, npm workspaces, and GitHub Actions weekly. Docsy 0.17.0, Dart Sass 1.102.0, and Linkinator are pinned by the website manifests. Initialization points Hugo's `sass` command at the locked platform executable. The lightweight version freshness check uses host Python 3 and the GitHub API. See the [Docsy setup guide](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/) and [0.17.0 release notes](https://www.docsy.dev/blog/2026/0.17.0/).
+The container uses the official Hugo Extended 0.167.0 image and supplies the remaining build tools. Dependabot checks Docker, Go modules, npm workspaces, and GitHub Actions weekly. Docsy 0.17.0 and Dart Sass 1.102.0 are pinned by the website manifests, and the container image pins the lychee link checker. Initialization points Hugo's `sass` command at the locked platform executable. The lightweight version freshness check uses host Python 3 and the GitHub API. See the [Docsy setup guide](https://www.docsy.dev/docs/get-started/docsy-as-module/installation-prerequisites/) and [0.17.0 release notes](https://www.docsy.dev/blog/2026/0.17.0/).
 
 ## Build and preview
 

@@ -59,9 +59,9 @@ check:
 check-in-container: build-in-container
 	python3 tools/docs.py check-adapter
 	python3 tools/check-presentation.py --public "$(HUGO_DESTINATION)"
-	npm run check-links -- "**/*.html" --server-root "$(HUGO_DESTINATION)" \
-		--check-fragments --check-css --timeout 15000 --concurrency 10 --verbosity error \
-		--skip 'https?://(?!localhost(?=[:/])|127[.]0[.]0[.]1(?=[:/])).*'
+	lychee --offline --include-verbatim --include-fragments=anchor-only --index-files index.html \
+		--root-dir "$(abspath $(HUGO_DESTINATION))" --no-progress --format compact \
+		"$(HUGO_DESTINATION)/**/*.html" "$(HUGO_DESTINATION)/**/*.css"
 
 check-doc-versions:
 	python3 tools/docs.py check-release-versions
