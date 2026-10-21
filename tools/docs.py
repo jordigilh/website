@@ -632,8 +632,10 @@ def example_page_description(context: ExampleContext, source_path: str, content:
         intro += "\nThis configuration comes from the selected release. The example has not been run here; external services are not bundled.\n"
         return details["title"], details["summary"], intro, example_resources(content, source_path, context.known_paths)
     title = PurePosixPath(source_path).stem.replace("-", " ").replace("_", " ").title()
-    group = PurePosixPath(source_path).parent.name.replace("-", " ")
-    summary = context.descriptions.get(source_path) or f"Example source file in {group} for {context.config['name']}."
+    summary = context.descriptions.get(source_path) or (
+        f"Source example file {source_path.removeprefix('examples/')} from the "
+        f"{context.config['name']} {context.version} snapshot."
+    )
     if len(summary) < 20:
         summary = f"{summary} Example source for {context.config['name']}."
     return title, summary, "This file is copied from the selected source snapshot.\n", set()
@@ -794,33 +796,40 @@ def write_example_catalog_index(context: ExampleContext, samples: list[tuple[str
          if example_metadata(product, item[0], item[1], descriptions)["featured"]),
         key=lambda item: example_metadata(product, item[0], item[1], descriptions)["featured_order"],
     )
+    other_samples = [(path, body) for path, body in samples if path not in configs]
     categories = sorted({PurePosixPath(path).relative_to("examples/configs").parts[0] for path in configs
                          if PurePosixPath(path).parent.as_posix() != "examples/configs"})
     lines = [
-        f"Browse {len(configs)} tracked YAML configurations from the {label} {config['name']} source snapshot.",
-        "Pages and downloads keep the selected version and source commit. Examples may need local services, credentials, or certificates; the catalog does not claim every configuration was run.",
+        (f"Browse {len(configs)} tracked YAML configurations from the {label} {config['name']} source snapshot."
+         if configs else f"Browse {len(other_samples)} linked source examples from the {label} {config['name']} snapshot."),
+        "Pages and downloads keep the selected version and source commit. Examples may need local services, credentials, or certificates; their presence here does not imply they were run.",
         "", "## Start with these tasks", "",
     ]
     for path, body in featured:
         details = example_metadata(product, path, body, descriptions)
         lines.append(f"- [{details['task']}]({site_url(product, version, output_paths[path])}) — {details['summary']}")
     if not featured:
-        lines.append("Choose a category below to browse every published YAML configuration.")
-    lines.extend(["", "## Browse all configurations", ""])
+        lines.append("Choose a category below to browse every published YAML configuration." if configs
+                     else "Browse the linked source examples below.")
+    if configs:
+        lines.extend(["", "## Browse all configurations", ""])
+    elif other_samples:
+        lines.extend(["", "## Linked source examples", ""])
     if configs:
         lines.append(f"- [All configuration categories]({site_url(product, version, group_pages['examples/configs'])})")
         for category in categories:
             group = f"examples/configs/{category}"
             title = category.replace("-", " ").replace("_", " ").title()
             lines.append(f"- [{title}]({site_url(product, version, group_pages[group])})")
-    other_samples = [(path, body) for path, body in samples if path not in configs]
     if other_samples:
-        lines.extend(["", "## Other linked source examples", ""])
+        if configs:
+            lines.extend(["", "## Other linked source examples", ""])
         lines.extend(
             f"- [{PurePosixPath(path).relative_to('examples').as_posix()}]("
             f"{site_url(product, version, output_paths[path])})" for path, _ in other_samples
         )
-    summary = f"Browse {len(configs)} tracked YAML configurations for {config['name']}, organized by task and setup needs."
+    summary = (f"Browse {len(configs)} tracked YAML configurations for {config['name']}, organized by task and setup needs."
+               if configs else f"Browse {len(other_samples)} linked source examples for {config['name']}, with pages pinned to the selected source snapshot.")
     page = {"title": "Examples", "source_path": index_source, "content_path": "examples/_index.md",
             "description": summary, "summary": summary, "order": 20}
     metadata = example_index_metadata(context, page)
@@ -938,7 +947,14 @@ def rewrite_cross_product(raw: str) -> str:
         return raw
     config = products[product]
     ref = fields[3]
-    version = ref if any(release["version"] == ref for release in config["releases"]) else config["default"]
+    release = next((release for release in config["releases"] if release["version"] == ref), None)
+    development = config.get("development")
+    if release:
+        version, sha = release["version"], release["sha"]
+    elif development and ref == development["ref"]:
+        version, sha = "dev", development["sha"]
+    else:
+        return raw
     source_rel = "/".join(fields[4:])
     mapped = map_product_doc(config, source_rel)
     if mapped is None:
@@ -946,8 +962,7 @@ def rewrite_cross_product(raw: str) -> str:
     # Only rewrite to an internal URL when the target page is actually published
     # at that version; otherwise keep the upstream link (e.g. a page that exists
     # on a branch but not in the selected release).
-    release = next(release for release in config["releases"] if release["version"] == version)
-    if not blob_exists(product, release["sha"], source_rel):
+    if not blob_exists(product, sha, source_rel):
         return raw
     return urlunsplit(("", "", site_url(product, version, mapped), parts.query, parts.fragment))
 
@@ -1121,8 +1136,38 @@ def rewrite_markdown(text: str, **context) -> str:
     return "".join(output)
 
 
+def demote_subsequent_h1s(markdown: str) -> str:
+    lines: list[str] = []
+    fence: str | None = None
+    fence_length = 0
+    seen_h1 = False
+    for line in markdown.splitlines(keepends=True):
+        marker = re.match(r"^ {0,3}(`{3,}|~{3,})", line)
+        if marker:
+            token = marker.group(1)[0]
+            if fence is None:
+                fence, fence_length = token, len(marker.group(1))
+            elif token == fence and len(marker.group(1)) >= fence_length:
+                fence, fence_length = None, 0
+            lines.append(line)
+        elif fence is None and (heading := re.match(r"^( {0,3})(#{1,6})(?=[ \t])", line)):
+            level = len(heading.group(2))
+            if level == 1 and not seen_h1:
+                seen_h1 = True
+            elif seen_h1 and level < 6:
+                # Shift later headings one level down so nested headings stay
+                # beneath the section they belong to.
+                line = heading.group(1) + "#" + line[len(heading.group(1)):]
+            lines.append(line)
+        else:
+            lines.append(line)
+    return "".join(lines)
+
+
 def adapt_page_markdown(text: str, title: str, **context) -> str:
-    """Apply source-link rewrites and remove the body H1 duplicated by page metadata."""
+    """Apply source adaptation and remove the body H1 duplicated by page metadata."""
+    if context.get("product") == "grid" and context.get("source_path") == "docs/routing.md":
+        text = demote_subsequent_h1s(text)
     return remove_duplicate_initial_h1(rewrite_markdown(text, **context), title)
 
 
@@ -1448,6 +1493,13 @@ def check_example_catalog_adapter() -> None:
     raw_config = b"listener:\r\n  address: 127.0.0.1:8080\r\n"
     details = example_metadata("praxis", sample_path, raw_config, {})
     assert details["category"] == "practical" and details["featured"]
+    grid_context = ExampleContext("grid", "v0.2.1", "v0.2.1", "0123456789abcdef0123456789abcdef01234567",
+                                  {"name": "Praxis Grid"}, SOURCES / "grid", {}, set(),
+                                  Path("/tmp"), False, "", "")
+    _, grid_summary, _, _ = example_page_description(
+        grid_context, "examples/helm/site/values.yaml", b"value: true\n", None,
+    )
+    assert "helm/site/values.yaml" in grid_summary
     assert example_source_mapping({sample_path: raw_config}, set())["examples/configs"] == "examples/configs/_index.md"
     fixture = example_metadata("ai", "examples/configs/openai/responses/agentic-loop-fixture.yaml", b"fixture: true\n", {})
     assert fixture["category"] == "fixture"
@@ -1515,6 +1567,31 @@ def check_adapter() -> None:
         "Upgrade", **rewrite_context,
     )
     assert comment_and_badge.endswith('<a id="v2-to-v4"></a>\n\nSteps.\n')
+    assert rewrite_cross_product(
+        "https://github.com/praxis-proxy/policy/blob/main/docs/content/apl/pdp.md#structured-request-input"
+    ) == "/policy/dev/apl/pdp/#structured-request-input"
+    uncataloged_release_link = (
+        "https://github.com/praxis-proxy/policy/blob/v0.4.1/docs/content/apl/pdp.md#migrating-args-policies"
+    )
+    assert rewrite_cross_product(uncataloged_release_link) == uncataloged_release_link
+    grid_routing = adapt_page_markdown(
+        "# Routing guide\n\n# First section\n\n~~~yaml\n# config\n~~~\n\n# Second section\n",
+        "Routing guide", product="grid", source_path="docs/routing.md",
+    )
+    assert grid_routing == (
+        '<a id="routing-guide"></a>\n\n## First section\n\n~~~yaml\n# config\n~~~\n\n## Second section\n'
+    )
+    grid_nested = adapt_page_markdown(
+        "# Routing guide\n\n# First section\n\n## Nested detail\n\n### Deeper\n\n###### Deepest\n",
+        "Routing guide", product="grid", source_path="docs/routing.md",
+    )
+    assert grid_nested == (
+        '<a id="routing-guide"></a>\n\n## First section\n\n### Nested detail\n\n#### Deeper\n\n###### Deepest\n'
+    )
+    other_routing = adapt_page_markdown(
+        "# Routing guide\n\n# First section\n", "Routing guide", product="ai", source_path="docs/routing.md",
+    )
+    assert other_routing.endswith("\n\n# First section\n")
     assert remove_duplicate_initial_h1("# A page\n\nBody", "Different title") == "# A page\n\nBody"
     assert remove_duplicate_initial_h1("# Page {#stable-link}\n\nBody", "Page").startswith('<a id="stable-link"></a>')
 

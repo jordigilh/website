@@ -13,7 +13,7 @@
     <label>Project
       <select name="product" data-praxis-product>
         <option value="all">All projects</option>
-        {{- range slice "praxis" "ai" "policy" }}
+        {{- range slice "praxis" "ai" "policy" "grid" }}
         {{- $slug := . -}}
         {{- $product := index hugo.Data.docs_build_versions.products $slug -}}
         <option value="{{ $slug }}">{{ $product.name }}</option>

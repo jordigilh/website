@@ -1,9 +1,9 @@
 {{- $products := hugo.Data.docs_build_versions.products -}}
 {{- $navigation := hugo.Data.docs_navigation.products -}}
-{{- $order := slice "praxis" "ai" "policy" -}}
-{{- $titles := dict "praxis" "Run an HTTP or TCP proxy" "ai" "Send requests to AI services" "policy" "Control access to tools and data" -}}
-{{- $descriptions := dict "praxis" "Choose where requests go and add header or security rules with built-in filters." "ai" "Route model and agent traffic through a gateway connected to AI providers." "policy" "Decide who can do what, pass identity between services, and limit data exposure." -}}
-{{- $prerequisites := dict "praxis" "Docker Engine and curl. The first proxy tutorial forwards a request to a local backend." "ai" "Docker Engine, curl, and an OpenAI API key for requests to the live provider." "policy" "Requires Rust 1.92 or newer (install with rustup; the repository pins its toolchain). The quickstart walks through its included authorization and redaction scenario." -}}
+{{- $order := slice "praxis" "ai" "policy" "grid" -}}
+{{- $titles := dict "praxis" "Run an HTTP or TCP proxy" "ai" "Send requests to AI services" "policy" "Control access to tools and data" "grid" "Route inference across Kubernetes sites" -}}
+{{- $descriptions := dict "praxis" "Choose where requests go and add header or security rules with built-in filters." "ai" "Route model and agent traffic through a gateway connected to AI providers." "policy" "Decide who can do what, pass identity between services, and limit data exposure." "grid" "Discover inference providers across Kubernetes sites and publish routing state for Praxis AI gateways." -}}
+{{- $prerequisites := dict "praxis" "Docker Engine and curl. The first proxy tutorial forwards a request to a local backend." "ai" "Docker Engine, curl, and an OpenAI API key for requests to the live provider." "policy" "Requires Rust 1.92 or newer (install with rustup; the repository pins its toolchain). The quickstart walks through its included authorization and redaction scenario." "grid" "Review the technical-preview scope and installation requirements for the Kubernetes clusters you plan to connect." -}}
 {{- $showPrerequisites := eq (.Get "prerequisites") "true" -}}
 <section class="home-section home-tasks" aria-labelledby="task-chooser-title">
   <div class="home-section__heading">
@@ -15,7 +15,7 @@
   {{- range $id := $order -}}
     {{- $product := index $products $id -}}
     {{- $nav := index $navigation $id -}}
-    {{- $productPages := where (where site.RegularPages "Params.product" $id) "Params.version" $product.default -}}
+    {{- $productPages := where (where site.Pages "Params.product" $id) "Params.version" $product.default -}}
     {{- $startPages := where $productPages "Params.source_path" $nav.start -}}
     {{- $startHref := "" -}}
     {{- with index $startPages 0 }}{{ $startHref = .RelPermalink }}{{ end -}}

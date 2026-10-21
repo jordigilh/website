@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-01",
+  "checked": "2026-10-21",
   "source_inventory": "original-site-inventory.json",
   "route_count": 40,
   "routes": [
@@ -32,15 +32,15 @@
     {"source": "/docs/getting-started/installation", "target": "/guides/install/", "action": "alias"},
     {"source": "/docs/getting-started/introduction", "target": "/praxis/", "action": "alias"},
     {"source": "/docs/getting-started/quickstart", "target": "/guides/first-proxy/", "action": "alias"},
-    {"source": "/docs/grid/concepts", "target": "/grid/", "action": "alias", "external_project": "https://github.com/praxis-proxy/grid"},
-    {"source": "/docs/grid/getting-started", "target": "/grid/", "action": "alias", "external_project": "https://github.com/praxis-proxy/grid"},
-    {"source": "/docs/grid/overview", "target": "/grid/", "action": "alias", "external_project": "https://github.com/praxis-proxy/grid"},
+    {"source": "/docs/grid/concepts", "target": "/grid/v0.2.1/architecture/crds/", "product": "grid", "version": "v0.2.1", "source_path": "docs/architecture/crds.md", "action": "versioned-page"},
+    {"source": "/docs/grid/getting-started", "target": "/grid/v0.2.1/installation/existing-clusters/", "product": "grid", "version": "v0.2.1", "source_path": "docs/installation/existing-clusters.md", "action": "versioned-page"},
+    {"source": "/docs/grid/overview", "target": "/grid/v0.2.1/architecture/overview/", "product": "grid", "version": "v0.2.1", "source_path": "docs/architecture/overview.md", "action": "versioned-page"},
     {"source": "/docs/protocols/tls", "target": "/praxis/v0.7.2/operating/tls/", "product": "praxis", "version": "v0.7.2", "source_path": "docs/operating/tls.md", "action": "versioned-page"},
     {"source": "/docs/security/hardening", "target": "/praxis/v0.7.2/operating/security-hardening/", "product": "praxis", "version": "v0.7.2", "source_path": "docs/operating/security-hardening.md", "action": "versioned-page"},
     {"source": "/examples/", "target": "/examples/", "action": "keep"},
     {"source": "/praxis-ai-booklet.html", "target": "/visual-guides/ai/", "action": "alias"},
     {"source": "/praxis-core-booklet.html", "target": "/visual-guides/praxis/", "action": "alias"},
-    {"source": "/praxis-grid-booklet.html", "target": "/grid/", "action": "alias", "external_resource": "https://praxis.fast/praxis-grid-booklet.html"},
+    {"source": "/praxis-grid-booklet.html", "target": "/grid/v0.2.1/architecture/overview/", "product": "grid", "version": "v0.2.1", "source_path": "docs/architecture/overview.md", "action": "versioned-page"},
     {"source": "/search", "target": "/search/", "action": "keep"},
     {"source": "/architecture/diagram.html", "target": "/visual-guides/praxis/", "action": "alias"}
   ]

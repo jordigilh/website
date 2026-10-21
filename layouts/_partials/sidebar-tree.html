@@ -47,6 +47,10 @@
     </div>
     <nav class="td-sidebar-nav collapse foldable-nav" id="td-section-nav" aria-label="Documentation navigation">
       <ul class="td-sidebar-nav__section ul-0">
+        {{- if eq $productID "grid" -}}
+          {{- $projectOverviewURL := "grid/" | relURL -}}
+        <li class="docs-sidebar-item{{ if eq $page.RelPermalink $projectOverviewURL }} active{{ end }}"><a href="{{ $projectOverviewURL }}"{{ if eq $page.RelPermalink $projectOverviewURL }} aria-current="page"{{ end }}>Project page</a></li>
+        {{- end -}}
         {{- with index $overviewPages 0 -}}
         <li class="docs-sidebar-item{{ if eq .RelPermalink $page.RelPermalink }} active{{ end }}"><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}>Overview</a></li>
         {{- end -}}
@@ -129,7 +133,7 @@
     <p class="docs-sidebar__identity"><span>Projects</span><small>Choose documentation</small></p>
     <nav class="td-sidebar-nav" aria-label="Project documentation">
       <ul class="td-sidebar-nav__section ul-0">
-        {{- range $id := slice "praxis" "ai" "policy" -}}
+        {{- range $id := slice "praxis" "ai" "policy" "grid" -}}
           {{- $project := index hugo.Data.docs_build_versions.products $id -}}
           <li class="docs-sidebar-item"><a href="{{ printf "%s/%s/" $id $project.default | relURL }}">{{ $project.name }}</a></li>
         {{- end }}
