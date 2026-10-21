@@ -2,6 +2,9 @@ name: Check
 
 on:
   pull_request:
+  # started by update-docs.yml on the docs pull request branch, which
+  # github.token cannot trigger through pull_request
+  workflow_dispatch:
 
 permissions:
   contents: read
