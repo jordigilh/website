@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      security-events: write
       contents: read
       actions: read
     steps:
@@ -31,3 +30,8 @@ jobs:
 
       - name: run zizmor
         uses: zizmorcore/zizmor-action@85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e # v0.7.1
+        with:
+          # the SARIF upload exits 0 on findings, so it could never fail the
+          # job; annotations make a finding fail the check
+          advanced-security: false
+          annotations: true

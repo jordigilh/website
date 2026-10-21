@@ -14,23 +14,29 @@ name: Prow
 #
 # Commands (/retest, /test, /ok-to-test) that re-run checks are not enabled:
 # they need actions: write. Re-run failed checks from the GitHub UI instead.
+# /label and /remove-label are not enabled either: there is no labels.labels
+# list in .github/prow.yaml, so they would only fail.
 #
 # Pull requests from forks (including this repository's fork-based
 # contributors) get a read-only token on pull_request events, so their
-# needs-* labels, reviewer requests, approval, and merge are handled by the
-# sweep job within its five-minute interval. Comments (/lgtm, /approve) and
-# merges after completed checks (check_suite) stay instant for every pull
-# request.
+# needs-* labels, reviewer requests, and approval are handled by the sweep job
+# within its five-minute interval. Comment commands (/lgtm, /approve) run as
+# soon as the comment is posted for every pull request. GitHub sends no
+# check_suite event for checks run by Actions, so expect up to five minutes
+# of delay from the sweep wherever an event does not fire.
 #
-# Runs with the default github.token. Restriction: a merge performed with
-# GITHUB_TOKEN fires no push events, so Publish Pages (pages.yml) does not run
-# when Prow merges. Deploy the site manually after a Prow merge (Actions ->
-# Publish Pages -> Run workflow). Follow-up: pass the praxis-bot app token as
-# github-token so merges deploy the site again.
+# Prow does not merge yet. It runs with the default github.token, and a merge
+# made with GITHUB_TOKEN fires no push events, so Publish Pages (pages.yml)
+# would not run. A maintainer merges once the gate (/lgtm, /approve, checks)
+# is satisfied, which fires push as usual. The action has no switch for this,
+# so .github/prow.yaml requires a label nothing applies, and the jobs below
+# keep contents: read. Follow-up, restoring Prow merges with the praxis-bot
+# app token: https://github.com/praxis-proxy/website/issues/25
 #
 # After changing .github/prow.yaml, the label-sync job creates the new labels
-# on the push that lands the change; it can also be run manually (Actions ->
-# Prow -> Run workflow). Label commands only apply labels that exist.
+# on the push that lands the change (a maintainer merge fires it); it can also
+# be run manually (Actions -> Prow -> Run workflow). Label commands only apply
+# labels that exist.
 on:
   issues:
     types: [opened, reopened, labeled, unlabeled]
@@ -87,17 +93,19 @@ jobs:
           prow-commands: >-
             /lgtm /approve /hold /assign /unassign /cc /uncc
             /close /reopen /retitle /milestone
-            /label /remove-label /kind /lifecycle
+            /kind /lifecycle
             /help /good-first-issue
+          # drops a stale lgtm label when a pull request gets new commits
+          jobs: lgtm
 
   # fork pull requests updated within sweep.lookback (default 1h), plus the
-  # lgtm backstop for merges missed by the events above
+  # lgtm backstop for events GitHub dropped
   sweep:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     permissions:
-      # merging
-      contents: write
+      # reading OWNERS files; contents: write returns with Prow merges (#25)
+      contents: read
       # labeling issues and pull requests
       issues: write
       # comments, reviews, requesting reviewers
