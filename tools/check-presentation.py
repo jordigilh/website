@@ -89,6 +89,9 @@ def main():
     home = Page((public / 'index.html').read_text())
     assert {f'/{product}/{default}/' for product, default in defaults.items()} <= set(home.main_links), \
         'Projects menu must open each selected documentation release'
+    assert '/grid/' not in home.main_links, 'Grid project page belongs in Grid documentation navigation'
+    grid_docs = Page((public / 'grid' / defaults['grid'] / 'index.html').read_text())
+    assert '/grid/' in grid_docs.docs_links, 'Grid documentation must link to its project page'
     assert not {'/docs/', '/start/', '/examples/'} & set(home.main_links), \
         'Docs, Get started, and Examples are project navigation, not top-level links'
     assert '/blog/' in home.main_links, 'Blog must be available in the main navigation'

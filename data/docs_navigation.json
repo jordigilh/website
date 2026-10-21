@@ -1482,6 +1482,207 @@
           "summary": "PPE acts as a reference monitor between an agent and the tools, agents, and data it can access."
         }
       }
+    },
+    "grid": {
+      "start": "docs/README.md",
+      "groups": [
+        "How-to",
+        "Tutorial",
+        "Reference",
+        "Explanation"
+      ],
+      "topic_order": [
+        "Overview",
+        "Installation",
+        "Architecture",
+        "Routing",
+        "API Reference",
+        "Configuration",
+        "Security",
+        "Operations",
+        "Observability",
+        "Development"
+      ],
+      "articles": {
+        "docs/README.md": {
+          "reader_need": "Overview",
+          "topic": "Overview",
+          "order": 10
+        },
+        "docs/adding-provider.md": {
+          "reader_need": "How-to",
+          "topic": "Operations",
+          "order": 10
+        },
+        "docs/architecture/auth.md": {
+          "reader_need": "Explanation",
+          "topic": "Security",
+          "order": 10
+        },
+        "docs/architecture/ci-kind-e2e.md": {
+          "reader_need": "Reference",
+          "topic": "Development",
+          "order": 10
+        },
+        "docs/architecture/consumer-config.md": {
+          "reader_need": "How-to",
+          "topic": "Configuration",
+          "order": 10
+        },
+        "docs/architecture/crds.md": {
+          "reader_need": "Reference",
+          "topic": "API Reference",
+          "order": 10,
+          "related": ["docs/architecture/overview.md", "docs/architecture/auth.md", "docs/architecture/scoring.md", "docs/routing.md"]
+        },
+        "docs/architecture/enrollment.md": {
+          "reader_need": "Explanation",
+          "topic": "Architecture",
+          "order": 10
+        },
+        "docs/architecture/external-ingress.md": {
+          "reader_need": "Explanation",
+          "topic": "Architecture",
+          "order": 20
+        },
+        "docs/architecture/opentelemetry.md": {
+          "reader_need": "How-to",
+          "topic": "Observability",
+          "order": 10
+        },
+        "docs/architecture/operations.md": {
+          "reader_need": "How-to",
+          "topic": "Operations",
+          "order": 20
+        },
+        "docs/architecture/overview.md": {
+          "reader_need": "Explanation",
+          "topic": "Architecture",
+          "order": 30,
+          "related": ["docs/architecture/crds.md", "docs/architecture/scoring.md", "docs/architecture/auth.md"]
+        },
+        "docs/architecture/polling-metrics.md": {
+          "reader_need": "Reference",
+          "topic": "Observability",
+          "order": 20
+        },
+        "docs/architecture/prefix-affinity.md": {
+          "reader_need": "How-to",
+          "topic": "Routing",
+          "order": 10
+        },
+        "docs/architecture/provider-draining.md": {
+          "reader_need": "How-to",
+          "topic": "Operations",
+          "order": 30
+        },
+        "docs/architecture/routing.md": {
+          "reader_need": "Explanation",
+          "topic": "Routing",
+          "order": 20,
+          "summary": "Describes how Grid renders, versions, distributes, and secures routing state for Praxis gateways."
+        },
+        "docs/architecture/scoring.md": {
+          "reader_need": "Explanation",
+          "topic": "Routing",
+          "order": 30
+        },
+        "docs/architecture/signals.md": {
+          "reader_need": "Reference",
+          "topic": "Observability",
+          "order": 30
+        },
+        "docs/conventions.md": {
+          "reader_need": "Explanation",
+          "topic": "Development",
+          "order": 20
+        },
+        "docs/developing/conventions.md": {
+          "reader_need": "Explanation",
+          "topic": "Development",
+          "order": 30,
+          "summary": "Points to the canonical Grid development conventions for code, tests, documentation, and pull requests."
+        },
+        "docs/developing/forge.md": {
+          "reader_need": "How-to",
+          "topic": "Development",
+          "order": 40,
+          "summary": "Install and use the pinned praxis-forge CLI for Grid topology validation and qualification workflows."
+        },
+        "docs/developing/type-design.md": {
+          "reader_need": "Explanation",
+          "topic": "Development",
+          "order": 50
+        },
+        "docs/developing/unicode-audit.md": {
+          "reader_need": "Reference",
+          "topic": "Development",
+          "order": 60
+        },
+        "docs/development.md": {
+          "reader_need": "How-to",
+          "topic": "Development",
+          "order": 70
+        },
+        "docs/fips.md": {
+          "reader_need": "How-to",
+          "topic": "Security",
+          "order": 20
+        },
+        "docs/installation/README.md": {
+          "reader_need": "Overview",
+          "topic": "Installation",
+          "order": 10,
+          "summary": "Introduces Grid installation paths for existing Kubernetes clusters, site enrollment, and AWS deployments."
+        },
+        "docs/installation/aws.md": {
+          "reader_need": "How-to",
+          "topic": "Installation",
+          "order": 20,
+          "summary": "Plan multi-site Grid deployments on AWS, including private connectivity, load balancers, and chart settings."
+        },
+        "docs/installation/enrollment.md": {
+          "reader_need": "How-to",
+          "topic": "Installation",
+          "order": 30
+        },
+        "docs/installation/existing-clusters.md": {
+          "reader_need": "How-to",
+          "topic": "Installation",
+          "order": 40
+        },
+        "docs/installation/migration-0.3.x.md": {
+          "reader_need": "How-to",
+          "topic": "Installation",
+          "order": 50
+        },
+        "docs/metrics.md": {
+          "reader_need": "Reference",
+          "topic": "Observability",
+          "order": 40
+        },
+        "docs/release.md": {
+          "reader_need": "Reference",
+          "topic": "Development",
+          "order": 80
+        },
+        "docs/routing.md": {
+          "reader_need": "How-to",
+          "topic": "Routing",
+          "order": 40
+        },
+        "docs/site-selection.md": {
+          "reader_need": "How-to",
+          "topic": "Routing",
+          "order": 50
+        },
+        "docs/technical-preview-scope.md": {
+          "reader_need": "Explanation",
+          "topic": "Overview",
+          "order": 20,
+          "related": ["docs/installation/existing-clusters.md", "docs/architecture/overview.md"]
+        }
+      }
     }
   }
 }

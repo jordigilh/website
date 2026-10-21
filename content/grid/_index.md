@@ -1,12 +1,16 @@
 +++
 title = "Praxis Grid"
-description = "Discover Grid through its official repository and its original unversioned guide."
-type = "guides"
-body_class = "guides-page"
+description = "A Kubernetes control plane for multi-site AI inference routing."
+type = "landing"
+layout = "list"
+product = "grid"
+body_class = "product-overview-page"
 +++
 
-Grid is a related external project, not a fourth release catalog entry on this site. It describes itself as a distributed control plane for inference backends: Grid writes routing state for Praxis AI, while gateways handle request traffic.
+Praxis Grid (AI Grid Network, AGN) discovers and evaluates inference providers across Kubernetes sites, then publishes routing state for Praxis AI gateways. Gateways handle requests; Grid is a separate control plane.
 
-Start with the [official Grid repository and current README](https://github.com/praxis-proxy/grid). The repository's default branch is not pinned to a release by this site; check its own tags and documentation before deploying it. Its current README describes `noMetrics` as the general provider strategy and `queueDepth` or `kvCachePressure` for llm-d pools. Do not apply older diagrams or routing examples without checking them against the current Grid source.
+{{< docs-link product="grid" source="docs/installation/existing-clusters.md" label="Install Grid on existing Kubernetes clusters" >}}
 
-The [original Grid overview](https://praxis.fast/docs/grid/overview/) and [original Grid visual guide](https://praxis.fast/praxis-grid-booklet.html) remain available as unversioned historical resources. They are not the current versioned documentation here, and portions of their routing/scoring description differ from the current repository. Grid uses its own Apache-2.0 license; this site's Praxis, AI, and Policy releases remain separate projects.
+{{< docs-link product="grid" source="docs/architecture/overview.md" label="Read the Grid architecture overview" >}}. {{< docs-link product="grid" source="docs/technical-preview-scope.md" label="Review technical-preview scope and limitations" >}}
+
+Grid v0.2.1 is a technical preview. Grid, Praxis AI, and Praxis releases are selected independently; this documentation does not establish a tested compatibility set. See the [Grid source repository](https://github.com/praxis-proxy/grid) for source and release artifacts. For historical context, the archived website retains the [legacy Getting Started guide](https://github.com/praxis-proxy/praxis-proxy.github.io/blob/43fb08a65bdf4341d78adb829ffcd6cc5e4d8131/docs/grid/getting-started.md), [Overview](https://github.com/praxis-proxy/praxis-proxy.github.io/blob/43fb08a65bdf4341d78adb829ffcd6cc5e4d8131/docs/grid/overview.md), [Concepts](https://github.com/praxis-proxy/praxis-proxy.github.io/blob/43fb08a65bdf4341d78adb829ffcd6cc5e4d8131/docs/grid/concepts.md), and [booklet HTML source](https://github.com/praxis-proxy/praxis-proxy.github.io/blob/43fb08a65bdf4341d78adb829ffcd6cc5e4d8131/static/praxis-grid-booklet.html). Use the versioned installation guide above for current setup instructions; the archived pages describe the earlier Grid design.

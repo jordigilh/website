@@ -58,15 +58,16 @@ serve-in-container: init-in-container
 check:
 	$(CONTAINER_MAKE) check-in-container
 
-# lychee reads the built files directly. --include-verbatim is needed to check
-# <script src>. The first --remap checks the site's own absolute URLs (canonical,
+# lychee reads rendered links from the built files; verbatim scanning also treats
+# URL-looking code examples as links. Rendered HTML href/src attributes are checked.
+# The first --remap checks the site's own absolute URLs (canonical,
 # feeds, sitemap) against the build instead of skipping them as external; the
 # second, for a base URL with a path (LINK_PREFIX, e.g. /docs), maps root-relative
 # links such as /docs/page/ to the files directly under the build directory.
 check-in-container: build-in-container
 	python3 tools/docs.py check-adapter
 	python3 tools/check-presentation.py --public "$(HUGO_DESTINATION)"
-	lychee --offline --include-verbatim --include-fragments=anchor-only --index-files index.html \
+	lychee --offline --include-fragments=anchor-only --index-files index.html \
 		--root-dir "$(abspath $(HUGO_DESTINATION))" \
 		--remap "^$(LINK_BASEURL) file://$(abspath $(HUGO_DESTINATION))/" \
 		$(if $(LINK_PREFIX),--remap "^file://$(abspath $(HUGO_DESTINATION))$(LINK_PREFIX)/ file://$(abspath $(HUGO_DESTINATION))/") \

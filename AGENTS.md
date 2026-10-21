@@ -8,7 +8,7 @@ ownership decisions.
 
 - Keep changes within the requested scope and preserve unrelated working-tree
   changes. Do not delete files or commit, push, or deploy unless requested.
-- `sources/{praxis,ai,policy}` are read-only documentation inputs. Their
+- `sources/{praxis,ai,policy,grid}` are read-only documentation inputs. Their
   repositories own product facts, prose, examples, and generated references.
   Make source corrections in the owning repository and update its website
   pointer only when that upstream change is ready.

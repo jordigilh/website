@@ -1,6 +1,6 @@
 {{- $products := hugo.Data.docs_build_versions.products -}}
 <div class="example-index">
-{{- range $i, $id := slice "praxis" "ai" "policy" -}}
+{{- range $i, $id := slice "praxis" "ai" "policy" "grid" -}}
   {{- $project := index $products $id -}}
   {{- $pages := where (where site.RegularPages "Params.product" $id) "Params.version" $project.default -}}
   {{- $examples := where $pages "Params.example_category" "!=" nil -}}
@@ -24,10 +24,16 @@
       {{- end -}}
     </ul>
     <p class="example-index__browse"><a href="{{ printf "%s/%s/examples/" $id $project.default | relURL }}">Browse all {{ $project.name }} examples <span aria-hidden="true">&rarr;</span></a></p>
-    {{- else -}}
+    {{- else if eq $id "policy" -}}
     <p>Start with the policy quickstart and its included authorization and redaction scenario.</p>
     {{- $start := index (where $pages "Params.source_path" "docs/content/quickstart.md") 0 -}}
     {{- with $start }}<p class="example-index__browse"><a href="{{ .RelPermalink }}">Follow the Policy quickstart <span aria-hidden="true">&rarr;</span></a></p>{{ end -}}
+    {{- else if eq $id "grid" -}}
+    <p>Browse Grid's versioned Helm and gateway source examples.</p>
+    <p class="example-index__browse"><a href="{{ printf "%s/%s/examples/" $id $project.default | relURL }}">Browse all {{ $project.name }} examples <span aria-hidden="true">&rarr;</span></a></p>
+    {{- else -}}
+    <p>Browse the versioned {{ $project.name }} example files.</p>
+    <p class="example-index__browse"><a href="{{ printf "%s/%s/examples/" $id $project.default | relURL }}">Browse all {{ $project.name }} examples <span aria-hidden="true">&rarr;</span></a></p>
     {{- end -}}
   </section>
 {{- end -}}

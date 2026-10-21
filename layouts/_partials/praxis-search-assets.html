@@ -10,7 +10,7 @@
 {{- $all := $template | resources.ExecuteAsTemplate "search-index/all-defaults.json" (dict "scopeProduct" "all" "scopeVersion" "defaults" "products" $products) -}}
 {{- if hugo.IsProduction -}}{{- $all = $all | fingerprint "md5" -}}{{- end -}}
 {{- $scopes := dict -}}
-{{- range slice "praxis" "ai" "policy" -}}
+{{- range slice "praxis" "ai" "policy" "grid" -}}
   {{- $slug := . -}}
   {{- $product := index $products $slug -}}
   {{- $versions := slice -}}

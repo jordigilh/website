@@ -1,5 +1,5 @@
 {{- $products := hugo.Data.docs_build_versions.products -}}
-{{- $order := slice "praxis" "ai" "policy" -}}
+{{- $order := slice "praxis" "ai" "policy" "grid" -}}
 <div class="docs-directory-grid">
   {{- range $id := $order -}}
     {{- $product := index $products $id -}}

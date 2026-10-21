@@ -7,3 +7,6 @@
 [submodule "sources/policy"]
 	path = sources/policy
 	url = https://github.com/praxis-proxy/policy.git
+[submodule "sources/grid"]
+	path = sources/grid
+	url = https://github.com/praxis-proxy/grid.git

@@ -21,6 +21,7 @@ body_class = "community-page"
       <li>{{< docs-link product="praxis" source="docs/README.md" label="Open proxy docs" >}}</li>
       <li>{{< docs-link product="ai" source="docs/README.md" label="Open AI gateway docs" >}}</li>
       <li>{{< docs-link product="policy" source="docs/content/index.md" label="Open Policy docs" >}}</li>
+      <li>{{< docs-link product="grid" source="docs/README.md" label="Open Grid docs" >}}</li>
     </ul>
   </section>
   <section class="community-card">
@@ -31,6 +32,8 @@ body_class = "community-page"
       <li><a href="https://github.com/praxis-proxy/praxis/issues/new">Praxis proxy</a></li>
       <li><a href="https://github.com/praxis-proxy/ai/issues/new">Praxis AI</a></li>
       <li><a href="https://github.com/praxis-proxy/policy/issues/new">Praxis Policy Engine</a></li>
+      <li><a href="https://github.com/praxis-proxy/grid/issues/new">Praxis Grid</a></li>
+      <li><a href="https://github.com/praxis-proxy/grid/blob/main/SECURITY.md">Praxis Grid security reporting guidance</a></li>
     </ul>
   </section>
   <section class="community-card">
@@ -41,6 +44,7 @@ body_class = "community-page"
       <li><a href="https://github.com/praxis-proxy/praxis">Contribute to Praxis</a></li>
       <li><a href="https://github.com/praxis-proxy/ai">Contribute to Praxis AI</a></li>
       <li><a href="https://github.com/praxis-proxy/policy">Contribute to Policy</a></li>
+      <li><a href="https://github.com/praxis-proxy/grid">Contribute to Praxis Grid</a></li>
     </ul>
   </section>
   <section class="community-card">
@@ -51,6 +55,6 @@ body_class = "community-page"
   </section>
 </div>
 
-## Grid and related projects
+## Praxis Grid
 
-Grid is an external project in this documentation site. Its official repository and the unversioned original guide are listed on the [Grid discovery page]({{< relref "../grid/_index.md" >}}); Grid is not a fourth entry in the versioned project catalog.
+Grid is a separately versioned project with a technical-preview documentation channel. Visit its [project page]({{< relref "../grid/_index.md" >}}) or [source repository](https://github.com/praxis-proxy/grid) to get started or contribute.

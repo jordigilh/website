@@ -2,7 +2,7 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpraxis-proxy%2Fwebsite.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpraxis-proxy%2Fwebsite?ref=badge_shield)
 
 
-One Hugo site publishes shared ecosystem pages and versioned docs from the Praxis, Praxis AI, and Policy repositories. Product source repositories remain authoritative; prepared Markdown and assets live only in ignored `.cache/` output.
+One Hugo site publishes shared ecosystem pages and versioned docs from the Praxis, Praxis AI, Policy, and Grid repositories. Product source repositories remain authoritative; prepared Markdown and assets live only in ignored `.cache/` output.
 
 For documentation and website contributions, read [AGENTS.md](AGENTS.md) for source ownership, editorial and UI conventions, validation, and optional skill guidance.
 
@@ -37,7 +37,7 @@ HUGO_BASEURL=https://docs.example.com/ make build
 
 ## Source revisions and releases
 
-`sources/{praxis,ai,policy}` are read-only documentation inputs. Git records their working revisions as submodule pointers. Release commits and defaults are in [`data/docs_versions.json`](data/docs_versions.json); each project is versioned independently. CI checks each default against that repository's latest published stable GitHub release. Run the check locally with `make check-doc-versions`; it uses the public GitHub API.
+`sources/{praxis,ai,policy,grid}` are read-only documentation inputs. Git records their working revisions as submodule pointers. Release commits and defaults are in [`data/docs_versions.json`](data/docs_versions.json); each project is versioned independently. CI checks each default against that repository's latest published stable GitHub release. Run the check locally with `make check-doc-versions`; it uses the public GitHub API.
 
 After `make init` has initialized the source submodules, add the latest published stable release for each project, validate its required docs, promote it, and move the matching source pointers together with:
 

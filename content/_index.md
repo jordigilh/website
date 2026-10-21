@@ -1,6 +1,6 @@
 +++
 title = "Praxis ecosystem"
-description = "Open source infrastructure for fast request paths, AI workflows, and explicit policy boundaries. Explore Praxis, Praxis AI, and Praxis Policy Engine."
+description = "Explore Praxis proxy, Praxis AI, Praxis Policy Engine, and Praxis Grid for multi-site inference routing."
 +++
 
 {{< project-story >}}
