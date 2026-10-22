@@ -29,7 +29,7 @@ Open **http://localhost:1313/** after `make serve` starts. Stop the preview with
 
 Preview output lives in `.cache/serve-public`; production builds use `public`. Restart an existing preview after updating the Makefile so it picks up the separate output directory. For an isolated build and link check while previewing, use `make check HUGO_DESTINATION=.cache/review-public`.
 
-The configured base URL defaults to `https://praxis-proxy.github.io/`. Override Hugo's standard `baseURL` setting without editing links or templates:
+The configured base URL defaults to `https://praxis-website.kube.rip/`. Override Hugo's standard `baseURL` setting without editing links or templates:
 
 ```sh
 HUGO_BASEURL=https://docs.example.com/ make build

@@ -3,7 +3,7 @@ HUGO ?= hugo
 HUGO_ARGS = --cacheDir $(CURDIR)/.cache/hugo
 HUGO_ENV = PATH=$(CURDIR)/node_modules/.bin:$$PATH
 HUGO_DESTINATION ?= public
-LINK_BASEURL = $(patsubst %/,%,$(or $(HUGO_BASEURL),https://praxis-proxy.github.io/))/
+LINK_BASEURL = $(patsubst %/,%,$(or $(HUGO_BASEURL),https://praxis-website.kube.rip/))/
 LINK_PREFIX = $(shell printf '%s' '$(LINK_BASEURL)' | sed -E 's|^[a-zA-Z][a-zA-Z0-9+.-]*://[^/]*||; s|/+$$||')
 CONTAINER_USER = --user $(shell id -u):$(shell id -g)
 CONTAINER_MAKE = docker compose run --build --rm $(CONTAINER_USER) website make HUGO_DESTINATION="$(HUGO_DESTINATION)"

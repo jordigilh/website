@@ -1,4 +1,4 @@
-baseURL = "https://praxis-proxy.github.io/"
+baseURL = "https://praxis-website.kube.rip/"
 title = "Praxis"
 enableGitInfo = false
 
@@ -43,9 +43,9 @@ enableGitInfo = false
   description = "Run and configure the Praxis proxy, connect AI services with Praxis AI, and enforce access with Praxis Policy Engine."
   offlineSearch = false
   images = ["images/praxis-social.png"]
-  github_repo = "https://github.com/praxis-proxy/praxis-proxy.github.io"
+  github_repo = "https://github.com/praxis-proxy/website"
   github_branch = "main"
-  github_project_repo = "https://github.com/praxis-proxy/praxis-proxy.github.io"
+  github_project_repo = "https://github.com/praxis-proxy/website"
 
 [params.ui]
   navbar_logo = true

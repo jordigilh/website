@@ -1,4 +1,4 @@
-module github.com/praxis-proxy/praxis-proxy.github.io
+module github.com/praxis-proxy/website
 
 go 1.27.3
 

@@ -17,7 +17,7 @@ services:
       GOTOOLCHAIN: auto
       HUGO_CACHEDIR: /project/.cache/hugo
       npm_config_cache: /project/.cache/npm
-      HUGO_BASEURL: ${HUGO_BASEURL:-https://praxis-proxy.github.io/}
+      HUGO_BASEURL: ${HUGO_BASEURL:-https://praxis-website.kube.rip/}
 
 volumes:
   npm-modules:
