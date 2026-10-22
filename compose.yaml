@@ -13,6 +13,8 @@ services:
       GOMODCACHE: /project/.cache/go/pkg/mod
       GOPATH: /project/.cache/go
       GOCACHE: /project/.cache/go/build
+      # The Hugo image pins GOTOOLCHAIN=local; go.mod requires a newer Go.
+      GOTOOLCHAIN: auto
       HUGO_CACHEDIR: /project/.cache/hugo
       npm_config_cache: /project/.cache/npm
       HUGO_BASEURL: ${HUGO_BASEURL:-https://praxis-proxy.github.io/}

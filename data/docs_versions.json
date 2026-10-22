@@ -7,7 +7,7 @@
       "default": "v0.7.2",
       "development": {
         "ref": "main",
-        "sha": "aa82ae074642a6cd888b8c490b1ce75dbd0f3242"
+        "sha": "f3ae62426387f63f793f5596416c80f57c44f14c"
       },
       "exclude": [
         "docs/proposals/**"
@@ -116,7 +116,7 @@
       "default": "v0.4.0",
       "development": {
         "ref": "main",
-        "sha": "fb459c538052f0868b9588a721bd5e11e748babc"
+        "sha": "223005869b4f8ecb477bc9739fe6391fcf80608a"
       },
       "status": "The public API is still evolving; breaking changes are documented in the changelog.",
       "exclude": [],
