@@ -1,5 +1,5 @@
 module github.com/praxis-proxy/praxis-proxy.github.io
 
-go 1.25.6
+go 1.27.3
 
-require github.com/google/docsy/theme v0.17.0
+require github.com/docsy/docsy/theme v0.18.0 // indirect
