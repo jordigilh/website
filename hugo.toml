@@ -6,7 +6,7 @@ enableGitInfo = false
   proxy = "direct"
 
   [[module.imports]]
-    path = "github.com/google/docsy/theme"
+    path = "github.com/docsy/docsy/theme"
 
   [[module.mounts]]
     source = "content"
@@ -34,7 +34,7 @@ enableGitInfo = false
 
   [module.hugoVersion]
     extended = true
-    min = "0.160.1"
+    min = "0.166.0"
 
 [markup.goldmark.renderer]
   unsafe = true
@@ -54,8 +54,8 @@ enableGitInfo = false
   sidebar_menu_foldable = true
   showLightDarkModeMenu = true
 
-[params.mermaid]
-  version = "11.17.0"
+[params.docsy.plugins.mermaid]
+  version = "11.17.2"
 
 # GA4 — loads only for production builds via layouts/_partials/head.html
 [services.googleAnalytics]
